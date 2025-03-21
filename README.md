@@ -11,12 +11,12 @@ When two signals have a phase difference, they appear as **time-shifted** versio
 The **cross-correlation** function finds the similarity between two signals as one is shifted in time. The **peak of the cross-correlation** corresponds to the time shift between the signals:  
 
  ```
-R_{xy}(tau) = \sum x(t) y(t+tau)
+R_{xy}(tau) = sum x(t) y(t+tau)
  ```
 
 Where:  
 - \( R_{xy}(tau) \) is the cross-correlation function  
-- \( x(t) \) and \( y(t) \) are the two signals  
+- \( x(t) \) and \( y(t) ) are the two signals  
 - \( tau \) is the time shift  
 
 Once the time shift \( t_d \) is found from the correlation peak, the **phase shift** is calculated using:

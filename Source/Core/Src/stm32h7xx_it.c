@@ -23,11 +23,9 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 /* USER CODE END Includes */
-#include "phase_shift.h"
+
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN TD */
-extern PhaseShift_Handle_t phaseShiftHandle;
-extern cubeMonitorProbe_t monitorProbe;
 /* USER CODE END TD */
 
 /* Private define ------------------------------------------------------------*/
@@ -187,15 +185,6 @@ void SysTick_Handler(void)
 
   /* USER CODE END SysTick_IRQn 0 */
 	HAL_IncTick();
-	static float32_t time;
-	time = time + 0.001   ;
-	float32_t time_shift  =   ( monitorProbe.simulatedphase / 360.0f) / SIGNAL_FREQUENCY_HZ ;
-	// Simulate a sine wave signal for current and voltage
-	float32_t currentSignal = 4.0f * sinf(2.0 * PI * SIGNAL_FREQUENCY_HZ* time);
-	float32_t voltageSignal =2.0f * sinf(2.0 * PI *  SIGNAL_FREQUENCY_HZ * (time + time_shift));
-	monitorProbe.current= currentSignal;
-	monitorProbe.voltage= voltageSignal;
-//	monitorProbe.measuredPhase =phaseShift_ProcessSample ( &phaseShiftHandle , currentSignal , voltageSignal);
 
   /* USER CODE BEGIN SysTick_IRQn 1 */
 

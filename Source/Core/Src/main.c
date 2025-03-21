@@ -24,24 +24,20 @@
 #include "phase_shift.h"
 /* USER CODE END Includes */
 
+#define SIGNAL_FREQUENCY_HZ         10U
+#define SAMPLE_FREQUENCY_HZ			1000U
+
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
+typedef struct
+{
+	float32_t current ;
+	float32_t voltage ;
 
-/* USER CODE END PTD */
+	float32_t simulatedphase ;
+	float32_t measuredPhase ;
+}cubeMonitorProbe_t ;
 
-/* Private define ------------------------------------------------------------*/
-/* USER CODE BEGIN PD */
-/* USER CODE END PD */
-
-/* Private macro -------------------------------------------------------------*/
-/* USER CODE BEGIN PM */
-
-
-/* USER CODE END PM */
-
-/* Private variables ---------------------------------------------------------*/
-
-/* USER CODE BEGIN PV */
 
 /**
  * @struct cubeMonitorProbe_t
@@ -59,14 +55,7 @@ PhaseShift_Handle_t phaseShiftHandle;
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
-/* USER CODE BEGIN PFP */
 
-/* USER CODE END PFP */
-
-/* Private user code ---------------------------------------------------------*/
-/* USER CODE BEGIN 0 */
-
-/* USER CODE END 0 */
 
 /**
   * @brief  The application entry point.
@@ -74,36 +63,40 @@ void SystemClock_Config(void);
   */
 int main(void)
 {
-  /* USER CODE BEGIN 1 */
 
-  /* USER CODE END 1 */
 
-  /* MCU Configuration--------------------------------------------------------*/
-
-  /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-  HAL_Init();
-
-  /* USER CODE BEGIN Init */
-
-  /* USER CODE END Init */
-
-  /* Configure the system clock */
+	/**
+	     * @brief Initialize MCU
+	     */
+	HAL_Init();
+  /**
+     * @brief Initialize system clock
+     */
   SystemClock_Config();
 
   /**
-     * @brief Initialize phase shift computation with the sampling frequency
-     */
-    phaseShift_Init(&phaseShiftHandle, SIGNAL_FREQUENCY_HZ , SAMPLE_FREQUENCY_HZ);
+   * @brief Initialize phase shift computation with the sampling frequency
+   */
+  phaseShift_Init(&phaseShiftHandle, SIGNAL_FREQUENCY_HZ , SAMPLE_FREQUENCY_HZ);
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    /* USER CODE END WHILE */
+
+	  /*Sampling Routine */
 	  static uint32_t previoust_time_ms ;
 	  if( HAL_GetTick() - previoust_time_ms  >  ( 1 / SAMPLE_FREQUENCY_HZ ) * 1000U  )
 	  {
 
+		  static float32_t time;
+		  time = time + 0.001   ;
+		  float32_t time_shift  =   ( monitorProbe.simulatedphase / 360.0f) / SIGNAL_FREQUENCY_HZ ;
+		  // Simulate a sine wave signal for current and voltage
+		  float32_t currentSignal = 4.0f * sinf(2.0 * PI * SIGNAL_FREQUENCY_HZ* time);
+		  float32_t voltageSignal =2.0f * sinf(2.0 * PI *  SIGNAL_FREQUENCY_HZ * (time + time_shift));
+		  monitorProbe.current= currentSignal;
+		  monitorProbe.voltage= voltageSignal;
 
 		  monitorProbe.measuredPhase =phaseShift_ProcessSample ( &phaseShiftHandle , monitorProbe.current , monitorProbe.voltage);
 		  previoust_time_ms = HAL_GetTick()  ;
@@ -168,9 +161,7 @@ void SystemClock_Config(void)
   }
 }
 
-/* USER CODE BEGIN 4 */
 
-/* USER CODE END 4 */
 
 /**
   * @brief  This function is executed in case of error occurrence.
@@ -187,19 +178,3 @@ void Error_Handler(void)
   /* USER CODE END Error_Handler_Debug */
 }
 
-#ifdef  USE_FULL_ASSERT
-/**
-  * @brief  Reports the name of the source file and the source line number
-  *         where the assert_param error has occurred.
-  * @param  file: pointer to the source file name
-  * @param  line: assert_param error line source number
-  * @retval None
-  */
-void assert_failed(uint8_t *file, uint32_t line)
-{
-  /* USER CODE BEGIN 6 */
-  /* User can add his own implementation to report the file name and line number,
-     ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
-  /* USER CODE END 6 */
-}
-#endif /* USE_FULL_ASSERT */

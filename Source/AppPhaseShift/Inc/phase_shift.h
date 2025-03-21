@@ -15,19 +15,10 @@
 #include "stdint.h"
 #include "arm_math.h"
 
-typedef struct
-{
-	float32_t current ;
-	float32_t voltage ;
-
-	float32_t simulatedphase ;
-	float32_t measuredPhase ;
-}cubeMonitorProbe_t ;
 
 /** @brief Defines the length of the signal buffer. */
-#define SIGNAL_LENGTH 				1024
-#define SIGNAL_FREQUENCY_HZ         10
-#define SAMPLE_FREQUENCY_HZ			1000
+#define SIGNAL_LENGTH 				1024U
+
 /**
  * @brief Structure for phase shift computation.
  *

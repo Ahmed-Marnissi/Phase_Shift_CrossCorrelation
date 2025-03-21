@@ -1,8 +1,5 @@
 # 📡 Phase Shift Measurement Library
 
-**Author:** [Your Name]  
-**Date:** March 2025  
-
 ## 📌 Overview  
 
 This project implements a **Phase Shift Measurement** library for STM32 microcontrollers using **CMSIS-DSP**. The library computes the **phase difference** between two periodic signals (e.g., voltage and current) using **cross-correlation**.  
@@ -13,22 +10,21 @@ When two signals have a phase difference, they appear as **time-shifted** versio
 
 The **cross-correlation** function finds the similarity between two signals as one is shifted in time. The **peak of the cross-correlation** corresponds to the time shift between the signals:  
 
-\[
-R_{xy}(\tau) = \sum x(t) y(t+\tau)
-\]
+ ```
+R_{xy}(tau) = \sum x(t) y(t+tau)
+ ```
 
 Where:  
-- \( R_{xy}(\tau) \) is the cross-correlation function  
+- \( R_{xy}(tau) \) is the cross-correlation function  
 - \( x(t) \) and \( y(t) \) are the two signals  
-- \( \tau \) is the time shift  
+- \( tau \) is the time shift  
 
 Once the time shift \( t_d \) is found from the correlation peak, the **phase shift** is calculated using:
 
-\[
-\theta = t_d \times f \times 360^\circ
-\]
-
-where \( f \) is the signal frequency in Hz.
+ ```
+theta =  t_d *  f * 360.0 ;
+ ```
+where  f  is the signal frequency in Hz.
 
 ## 🛠 Features  
 
@@ -42,7 +38,7 @@ where \( f \) is the signal frequency in Hz.
 
 ### 🔹 Requirements  
 
-- **STM32CubeIDE** or **Keil uVision**  
+- **STM32CubeIDE** 
 - **CMSIS-DSP Library**  
 - **ST-LINK Debugger**  
 - **STM32CubeMonitor** for visualization  

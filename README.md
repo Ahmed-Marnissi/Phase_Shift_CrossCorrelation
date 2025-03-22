@@ -47,7 +47,7 @@ where  f  is the signal frequency in Hz.
 
 1. Clone the repository:  
    ```sh
-   git clone https://github.com/your-repo/phase-shift-measurement.git
+   git clone https://github.com/Ahmed-Marnissi/Phase_Shift_CrossCorrelation.git
 
 2.Open the project in STM32CubeIDE  
 
